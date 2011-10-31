@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Derivations
 {
-    internal class LogicLeaf : LogicExpression
+    public class LogicLeaf : LogicExpression
     {
         public LogicLeaf(String paramString) : this(paramString, false)
         {

@@ -50,6 +50,12 @@
     <Compile Include="Expressions\VariableExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Derivations\Derivations.csproj">
+      <Project>{C3FC6B8C-61F8-4E6C-AB13-C0EDAB13FB96}</Project>
+      <Name>Derivations</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

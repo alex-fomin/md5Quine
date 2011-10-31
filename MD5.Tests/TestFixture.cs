@@ -1,7 +1,6 @@
-﻿using MD5;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace NUnitTest1
+namespace MD5.Tests
 {
     [TestFixture]
     public class Md5Test

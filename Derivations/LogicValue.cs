@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Derivations
 {
-    internal class LogicValue : LogicExpression
+    public class LogicValue : LogicExpression
     {
         public LogicValue(bool value) : base(false)
         {

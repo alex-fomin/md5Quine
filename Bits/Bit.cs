@@ -1,20 +1,21 @@
 using System;
 using Bits.Expressions;
+using Derivations;
 
 namespace Bits
 {
     public class Bit
     {
-        private readonly Expression _exp;
-        public static readonly Bit False = new Bit(Expression.Constant(false));
-        public static readonly Bit True = new Bit(Expression.Constant(true));
+        private readonly LogicExpression _exp;
+        public static readonly Bit False = new Bit(new LogicValue(false));
+        public static readonly Bit True = new Bit(new LogicValue(false));
 
         public Bit(string name)
-            : this(Expression.Variable(name))
+            : this(new LogicLeaf(name))
         {
         }
 
-        private Bit(Expression exp)
+        private Bit(LogicExpression exp)
         {
             _exp = exp;
         }
@@ -26,39 +27,10 @@ namespace Bits
             if (a == False)
                 return True;
 
-            if (a._exp is NotExpression)
-                return StripNot(a);
 
+            return new Bit("");
 
-            if (a._exp is VariableExpression)
-                return new Bit(Expression.Not(a._exp));
-
-
-            var binaryExpression  = a._exp as BinaryExpression;
-            if (binaryExpression != null)
-            {
-                if (binaryExpression.ExpressionType == ExpressionType.And)
-                {
-                    return ~(new Bit(binaryExpression.Left)) | ~(new Bit(binaryExpression.Right));
-                }
-                if (binaryExpression.ExpressionType == ExpressionType.Or)
-                {
-                    return ~(new Bit(binaryExpression.Left)) & ~(new Bit(binaryExpression.Right));
-                }
-                if (binaryExpression.ExpressionType == ExpressionType.Xor)
-                {
-                    return new Bit(Expression.Not(binaryExpression));
-                }
-            }
-
-            throw new Exception();
         }
-
-        private static Bit StripNot(Bit a)
-        {
-            return new Bit(((NotExpression)(a._exp)).Operand);
-        }
-
 
         public static Bit operator &(Bit a, Bit b)
         {
@@ -74,13 +46,9 @@ namespace Bits
             if (b.Equals(True))
                 return a;
 
-            if (a._exp is NotExpression && StripNot(a) == b)
-                return False;
-            if (b._exp is NotExpression && StripNot(b) == a)
-                return False;
-               
 
-            return new Bit(Expression.And(a._exp, b._exp));
+            return new Bit("");
+//            return new Bit(Expression.And(a._exp, b._exp));
         }
 
         public static Bit operator |(Bit a, Bit b)
@@ -96,13 +64,8 @@ namespace Bits
             if (b == False)
                 return a;
 
-            if (a._exp is NotExpression && StripNot(a) == b)
-                return True;
-            if (b._exp is NotExpression && StripNot(b) == a)
-                return True;
-
-
-            return new Bit(Expression.Or(a._exp, b._exp));
+//            return new Bit(Expression.Or(a._exp, b._exp));
+            return new Bit("");
         }
 
         public static Bit operator ^(Bit a, Bit b)
