@@ -1,0 +1,6 @@
+
+*/bin/*
+*.user
+*/obj/*
+*/_ReSharper*/*
+*/bin/*
