@@ -20,7 +20,7 @@ namespace Derivations
             //    return 0;
             //}
 
-            const string paramString = "(b0.b0).(a+(b.(c+d))).d.a"; //paramArrayOfString[0];
+            const string paramString = "not(b0 and b0)"; //paramArrayOfString[0];
             try
             {
                 ParsedExpression localParsedExpression = LogicParser.ParseLogic(paramString);
@@ -674,7 +674,7 @@ namespace Derivations
                 {
                     if (arrayOfLogicExpression1[m] == null)
                         continue;
-                    n = isAbsorbtion(arrayOfLogicExpression1[k], arrayOfLogicExpression1[m]);
+                    n = IsAbsorbtion(arrayOfLogicExpression1[k], arrayOfLogicExpression1[m]);
                     switch (n)
                     {
                         case 21:
@@ -708,56 +708,31 @@ namespace Derivations
             return j;
         }
 
-        private static int isAbsorbtion(LogicExpression paramLogicExpression1, LogicExpression paramLogicExpression2)
+        private static int IsAbsorbtion(LogicExpression left, LogicExpression right)
         {
-            LogicExpression[] arrayOfLogicExpression1;
-            if ((paramLogicExpression1 is LogicBranch))
+            LogicExpression[] leftArray = left is LogicBranch ? ((LogicBranch) left).Branches : new[] {left};
+
+            LogicExpression[] rightArray = right is LogicBranch ? ((LogicBranch) right).Branches : new[] {right};
+
+            int i = leftArray.Length < rightArray.Length ? 1 : 0;
+
+            LogicExpression[] minArray;
+            LogicExpression[] maxArray;
+            
+            if (leftArray.Length < rightArray.Length)
             {
-                arrayOfLogicExpression1 = ((LogicBranch) paramLogicExpression1).Branches;
+                minArray = leftArray;
+                maxArray = rightArray;
             }
             else
             {
-                arrayOfLogicExpression1 = new LogicExpression[1];
-                arrayOfLogicExpression1[0] = paramLogicExpression1;
-            }
-            LogicExpression[] arrayOfLogicExpression2;
-            if ((paramLogicExpression2 is LogicBranch))
-            {
-                arrayOfLogicExpression2 = ((LogicBranch) paramLogicExpression2).Branches;
-            }
-            else
-            {
-                arrayOfLogicExpression2 = new LogicExpression[1];
-                arrayOfLogicExpression2[0] = paramLogicExpression2;
+                minArray = rightArray;
+                maxArray = leftArray;
             }
 
-            int i = arrayOfLogicExpression1.Length < arrayOfLogicExpression2.Length ? 1 : 0;
-            LogicExpression[] arrayOfLogicExpression3;
-            LogicExpression[] arrayOfLogicExpression4;
-            if (i != 0)
+            if (minArray.Any(t1 => !maxArray.Any(t1.Equals)))
             {
-                arrayOfLogicExpression3 = arrayOfLogicExpression1;
-                arrayOfLogicExpression4 = arrayOfLogicExpression2;
-            }
-            else
-            {
-                arrayOfLogicExpression3 = arrayOfLogicExpression2;
-                arrayOfLogicExpression4 = arrayOfLogicExpression1;
-            }
-
-            foreach (LogicExpression t1 in arrayOfLogicExpression3)
-            {
-                int j = 0;
-
-                if (arrayOfLogicExpression4.Any(t => t1.Equals(t)))
-                {
-                    j = 1;
-                }
-
-                if (j == 0)
-                {
-                    return 20;
-                }
+                return 20;
             }
             return i != 0 ? 21 : 22;
         }
@@ -766,7 +741,7 @@ namespace Derivations
         {
             var i = paramLogicBranch.Operator;
 
-            LogicExpression[] arrayOfLogicExpression = paramLogicBranch.Branches;
+            LogicExpression[] arrayOfLogicExpression = (LogicExpression[]) paramLogicBranch.Branches;
 
             int j = arrayOfLogicExpression.Length;
 

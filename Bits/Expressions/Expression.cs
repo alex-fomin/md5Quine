@@ -1,62 +1,95 @@
-﻿using System;
+﻿using System.Linq;
 
 namespace Bits.Expressions
 {
-    public abstract class Expression : IEquatable<Expression>
+    public abstract class Expression
     {
-        public static VariableExpression Variable(string name)
+        public virtual Expression Simplify()
         {
-            return new VariableExpression(name);
+            return Simplify(this);
         }
 
-        public static NotExpression Not(Expression exp)
+
+
+        public abstract T Accept<T>(IExpressionVisitor<T> visitor);
+
+        public static Expression Not(Expression expression)
         {
-            return new NotExpression(exp);
+            return new NotExpression(expression).Simplify();
         }
 
-        public static Expression Constant(bool b)
+        public static Expression And(params Expression[] expressions)
         {
-            return new ConstantExpression(b);
+            return new AndExpression(expressions).Simplify();
         }
 
-        public static Expression And(Expression left, Expression right)
+        public static Expression Or(params Expression[] expressions)
         {
-            return new BinaryExpression(left, right, ExpressionType.And);
+            return new OrExpression(expressions).Simplify();
         }
 
-        public static BinaryExpression Or(Expression left, Expression right)
+        protected static Expression Simplify(Expression expression)
         {
-            return new BinaryExpression(left, right, ExpressionType.Or);
+            
+            expression = DeMorgan(expression);
+            expression = Taut(expression);
+            expression = Absorbtion(expression);
+            return expression;
         }
 
-        public abstract bool Equals(Expression other);
-
-        public override bool Equals(object obj)
+        private static Expression Absorbtion(Expression expression)
         {
-            return Equals((Expression) obj);
+            // a & (a | b) = a
+            // a | (a & b) = a
+            var branch = expression as BranchExpression;
+            if (branch != null)
+            {
+                
+            }
+            return expression;
         }
 
-        public override int GetHashCode()
+        private static Expression Taut(Expression expression)
         {
-            return 0;
+            // remove a * ~a and replace it with True or False
+
+            var branchExpression = expression as BranchExpression;
+            if (branchExpression != null)
+            {
+                if (branchExpression.Expressions.OfType<NotExpression>().Any(notExpression => branchExpression.Expressions.Contains(notExpression.Operand)))
+                {
+                    return branchExpression.Operator == Operator.And
+                               ? ValueExpression.False
+                               : ValueExpression.True;
+                }
+            }
+            return expression;
         }
 
-        public static bool operator ==(Expression left, Expression right)
+        private static Expression DeMorgan(Expression expression)
         {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(Expression left, Expression right)
-        {
-            return !Equals(left, right);
+            var notExpression = expression as NotExpression;
+            if (notExpression != null)
+            {
+                var branchExpression = notExpression.Operand as BranchExpression;
+                if (branchExpression != null)
+                {
+                    var negate = branchExpression.Expressions.Select(Not);
+                    return branchExpression.Operator == Operator.And
+                               ? (Expression) new OrExpression(negate.ToArray())
+                               : new AndExpression(negate.ToArray());
+                }
+            }
+            return expression;
         }
     }
 
-
-    public enum ExpressionType
+    public interface IExpressionVisitor<T>
     {
-        And, Or, Xor
+        T Visit(NotExpression notExpression);
+        T Visit(VariableExpression variableExpression);
+        T Visit(ValueExpression valueExpression);
+        T Visit(AndExpression andExpression);
+        T Visit(OrExpression andExpression);
     }
-
-
 }

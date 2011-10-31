@@ -42,19 +42,16 @@
   <ItemGroup>
     <Compile Include="Bit.cs" />
     <Compile Include="BitVector.cs" />
-    <Compile Include="ExpressionComparer.cs" />
-    <Compile Include="Expressions\BinaryExpression.cs" />
-    <Compile Include="Expressions\ConstantExpression.cs" />
+    <Compile Include="Expressions\AndExpression.cs" />
+    <Compile Include="Expressions\BranchExpression.cs" />
     <Compile Include="Expressions\Expression.cs" />
+    <Compile Include="Expressions\ExpressionComparer.cs" />
     <Compile Include="Expressions\NotExpression.cs" />
+    <Compile Include="Expressions\Operator.cs" />
+    <Compile Include="Expressions\OrExpression.cs" />
+    <Compile Include="Expressions\ValueExpression.cs" />
     <Compile Include="Expressions\VariableExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Derivations\Derivations.csproj">
-      <Project>{C3FC6B8C-61F8-4E6C-AB13-C0EDAB13FB96}</Project>
-      <Name>Derivations</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

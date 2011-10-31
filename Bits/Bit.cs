@@ -1,113 +1,55 @@
 using System;
 using Bits.Expressions;
-using Derivations;
 
 namespace Bits
 {
     public class Bit
     {
-        private readonly LogicExpression _exp;
-        public static readonly Bit False = new Bit(new LogicValue(false));
-        public static readonly Bit True = new Bit(new LogicValue(false));
+        private readonly Expression _expression;
+        public static readonly Bit False = new Bit(ValueExpression.False);
+        public static readonly Bit True = new Bit(ValueExpression.True);
 
         public Bit(string name)
-            : this(new LogicLeaf(name))
+            : this(new VariableExpression(name))
         {
         }
 
-        private Bit(LogicExpression exp)
+        private Bit(Expression expression)
         {
-            _exp = exp;
+            _expression = expression;
         }
 
         public static Bit operator ~(Bit a)
         {
-            if (a == True)
-                return False;
-            if (a == False)
-                return True;
-
-
-            return new Bit("");
-
+            return new Bit(Expression.Not(a._expression));
         }
 
         public static Bit operator &(Bit a, Bit b)
         {
-            if (a.Equals(b))
-                return a;
-
-            if (a.Equals(False) || b.Equals(False))
-                return False;
-
-            if (a.Equals(True))
-                return b;
-
-            if (b.Equals(True))
-                return a;
-
-
-            return new Bit("");
-//            return new Bit(Expression.And(a._exp, b._exp));
+            return new Bit(Expression.And(a._expression,b._expression));
         }
 
         public static Bit operator |(Bit a, Bit b)
         {
-            if (a == b)
-                return a;
-            if (a == True || b == True)
-                return True;
-
-            if (a == False)
-                return b;
-
-            if (b == False)
-                return a;
-
-//            return new Bit(Expression.Or(a._exp, b._exp));
-            return new Bit("");
+            return new Bit(Expression.Or(a._expression, b._expression));
         }
 
         public static Bit operator ^(Bit a, Bit b)
         {
-            if (a == b)
-                return False;
-
-            if (a == ~b)
-                return True;
-
-            if (a == True)
-            {
-                return ~b;
-            }
-            if (a == False)
-            {
-                return b;
-            }
-            if (b == True)
-            {
-                return ~a;
-            }
-            if (b == False)
-            {
-                return a;
-            }
-
-
             //return new Bit(Expression.ExclusiveOr(a._exp, b._exp));
             return ((~a) & (b) | (a & (~b)));
         }
 
         public override string ToString()
         {
-            return _exp.ToString();
+            return _expression.ToString();
         }
 
         public bool Equals(Bit other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other._exp, _exp);
+            return Equals(other._expression, _expression);
         }
 
         public override bool Equals(object obj)
@@ -120,7 +62,7 @@ namespace Bits
 
         public override int GetHashCode()
         {
-            return (_exp != null ? _exp.GetHashCode() : 0);
+            return (_expression != null ? _expression.GetHashCode() : 0);
         }
 
         public static bool operator ==(Bit left, Bit right)
