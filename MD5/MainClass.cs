@@ -19,7 +19,7 @@ using Bits;
 	    {
 	        public static void Main()
 	        {
-	            var md = new MD5 {ByteInput = new[] {new BitVector("a", 1)}};
+	            var md = new Md5 {ByteInput = new[] {new BitVector("a", 1)}};
 
 	            var result = md.FingerPrint;
 	            Console.WriteLine(result);

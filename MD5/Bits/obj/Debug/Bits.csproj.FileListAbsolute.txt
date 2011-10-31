@@ -1,5 +1,0 @@
-E:\MD5\MD5\Bits\bin\Debug\Bits.dll
-E:\MD5\MD5\Bits\bin\Debug\Bits.pdb
-E:\MD5\MD5\Bits\obj\Debug\ResolveAssemblyReference.cache
-E:\MD5\MD5\Bits\obj\Debug\Bits.dll
-E:\MD5\MD5\Bits\obj\Debug\Bits.pdb

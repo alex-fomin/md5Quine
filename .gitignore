@@ -4,3 +4,5 @@
 */obj/*
 */_ReSharper*/*
 */bin/*
+*_ReSharper.*/*
+*.suo

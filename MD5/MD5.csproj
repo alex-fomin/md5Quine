@@ -134,11 +134,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Bits\Bits.csproj">
+    <ProjectReference Include="..\Bits\Bits.csproj">
       <Project>{56F96E45-D0A9-468F-80A8-3F3CBE3517DC}</Project>
       <Name>Bits</Name>
     </ProjectReference>

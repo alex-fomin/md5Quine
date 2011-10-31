@@ -20,7 +20,7 @@ namespace MD5
 	/// <summary>
 	/// Summary description for MD5.
 	/// </summary>
-	public class MD5
+	public class Md5
 	{
 		/***********************VARIABLES************************************/
 

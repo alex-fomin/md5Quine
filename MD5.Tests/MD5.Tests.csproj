@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F03AAAC-CAEF-4F40-97EB-B962E57DA7B7}</ProjectGuid>
+    <ProjectGuid>{C488750D-CD20-4F6E-9BAE-5CB2FE27B990}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bits.Test</RootNamespace>
-    <AssemblyName>Bits.Test</AssemblyName>
+    <RootNamespace>MD5.Tests</RootNamespace>
+    <AssemblyName>MD5.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,6 +34,12 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.mocks">
+      <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="pnunit.framework">
+      <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,16 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitTests.cs" />
-    <Compile Include="BitVectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bits\Bits.csproj">
-      <Project>{56F96E45-D0A9-468F-80A8-3F3CBE3517DC}</Project>
-      <Name>Bits</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MD5.csproj">
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MD5\MD5.csproj">
       <Project>{B9392B6F-5B5B-45E5-AB8C-1B7A541E0CD0}</Project>
       <Name>MD5</Name>
     </ProjectReference>

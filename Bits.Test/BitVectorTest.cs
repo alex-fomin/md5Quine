@@ -1,6 +1,4 @@
-﻿using System;
-using MD5;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Bits.Test
 {
@@ -40,33 +38,6 @@ namespace Bits.Test
             Assert.AreEqual((uint?)sum, a + b);
         }
 
-
-        [TestCase(1u, 1)]
-        [TestCase(18654u, 5)]
-        [TestCase(uint.MaxValue - 100u, 10)]
-        public void RotateLeftTest(uint a, int s)
-        {
-            BitVector aa = (BitVector)a;
-            BitVector raa = aa.RotateLeft(s);
-
-            uint ra = a.RotateLeft(s);
-
-            Assert.AreEqual((uint)raa, ra);
-        }
-
-
-        [TestCase(1u)]
-        [TestCase(18654u)]
-        [TestCase(uint.MaxValue - 100u)]
-        public void ReverseTest(uint a)
-        {
-            BitVector aa = (BitVector)a;
-            BitVector raa = aa.ReverseByte();
-
-            uint ra = a.ReverseByte();
-
-            Assert.AreEqual((uint)raa, ra);
-        }
     }
 
 }
