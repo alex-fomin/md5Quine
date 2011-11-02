@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Bits.Test
 {
     [TestFixture]
-    public class BitTests
+    public class ExpressionTests
     {
 
         [Test, TestCaseSource("_andSource")]

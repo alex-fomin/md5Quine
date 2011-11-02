@@ -41,13 +41,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitVector.cs" />
-    <Compile Include="Expressions\AndExpression.cs" />
-    <Compile Include="Expressions\BranchExpression.cs" />
+    <Compile Include="Expressions\ExpressionRewriter.cs" />
+    <Compile Include="Expressions\ExpressionVisitor.cs" />
+    <Compile Include="Expressions\Laws\AbsorbtionLaw.cs" />
+    <Compile Include="Expressions\Laws\AssociativityLaw.cs" />
+    <Compile Include="Expressions\ComplexExpression.cs" />
+    <Compile Include="Expressions\Laws\ComplementationLaw.cs" />
+    <Compile Include="Expressions\Laws\ConstantNegateLaw.cs" />
+    <Compile Include="Expressions\Laws\DeMorganLaw.cs" />
     <Compile Include="Expressions\Expression.cs" />
     <Compile Include="Expressions\ExpressionComparer.cs" />
+    <Compile Include="Expressions\ExpressionExtensions.cs" />
+    <Compile Include="Expressions\IExpressionVisitor.cs" />
+    <Compile Include="Expressions\Laws\DistributivityAndLaw.cs" />
+    <Compile Include="Expressions\Laws\DoubleNegationLaw.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Expressions\Laws\IdentityLaw.cs" />
     <Compile Include="Expressions\NotExpression.cs" />
     <Compile Include="Expressions\Operator.cs" />
-    <Compile Include="Expressions\OrExpression.cs" />
+    <Compile Include="Expressions\Simplifier.cs" />
     <Compile Include="Expressions\ValueExpression.cs" />
     <Compile Include="Expressions\VariableExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

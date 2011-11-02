@@ -43,8 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitTests.cs" />
+    <Compile Include="ExpressionCompareTests.cs" />
+    <Compile Include="ExpressionTests.cs" />
     <Compile Include="BitVectorTest.cs" />
+    <Compile Include="LawTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,12 +10,8 @@ namespace Bits.Expressions
 
         public bool Equals(Expression x, Expression y)
         {
-            if (x == y)
+            if (ReferenceEquals(x, y))
                 return true;
-            if (x == null && y == null)
-                return true;
-            if (x == null || y == null)
-                return false;
             
             if (x.GetType() != y.GetType())
                 return false;
@@ -26,8 +22,8 @@ namespace Bits.Expressions
                 return Equals((VariableExpression)x, (VariableExpression)y);
             if (x is ValueExpression)
                 return Equals((ValueExpression)x, (ValueExpression)y);
-            if (x is BranchExpression)
-                return Equals((BranchExpression)x, (BranchExpression)y);
+            if (x is ComplexExpression)
+                return Equals((ComplexExpression)x, (ComplexExpression)y);
 
             throw new InvalidOperationException("Invalid expression type");
         }
@@ -47,7 +43,7 @@ namespace Bits.Expressions
             return a.Value == b.Value;
         }
 
-        public bool Equals(BranchExpression a, BranchExpression b)
+        public bool Equals(ComplexExpression a, ComplexExpression b)
         {
             if (a.Operator != b.Operator)
                 return false;
@@ -81,14 +77,9 @@ namespace Bits.Expressions
                 return valueExpression.Value.GetHashCode();
             }
 
-            public int Visit(AndExpression andExpression)
+            public int Visit(ComplexExpression complex)
             {
-                return andExpression.Expressions.Aggregate(0xaaaaaaa, (current, expression) => current ^ expression.Accept(this));
-            }
-
-            public int Visit(OrExpression andExpression)
-            {
-                return andExpression.Expressions.Aggregate(0xbbbbbbb, (current, expression) => current ^ expression.Accept(this));
+                return complex.Expressions.Aggregate(complex.Operator.GetHashCode()*397, (current, expression) => current ^ expression.Accept(this));
             }
         }
     }

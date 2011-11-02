@@ -1,18 +1,21 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Bits.Expressions
 {
-    public abstract class Expression
+    public abstract class Expression : IEquatable<Expression>
     {
     	public static readonly ValueExpression False = new ValueExpression(false);
     	public static readonly Expression True = new ValueExpression(true);
 
-    	public virtual Expression Simplify()
+        public static VariableExpression Variable(string name)
         {
-            return Simplify(this);
+            return new VariableExpression(name);
         }
 
-		public static Expression operator &(Expression a, Expression b)
+        #region Operator
+
+        public static Expression operator &(Expression a, Expression b)
 		{
 			return And(a, b);
 		}
@@ -22,7 +25,7 @@ namespace Bits.Expressions
 		}
 		public static Expression operator ^(Expression a, Expression b)
 		{
-			return ((a & ~b) | (~a & b)).Simplify();
+		    return ((a & ~b) | (~a & b));
 		}
 
 		public static Expression operator ~(Expression a)
@@ -30,91 +33,52 @@ namespace Bits.Expressions
 			return Not(a);
 		}
 
+        #endregion
+
 
         public abstract T Accept<T>(IExpressionVisitor<T> visitor);
 
         public static Expression Not(Expression expression)
         {
-            return new NotExpression(expression).Simplify();
+            return new NotExpression(expression);
         }
 
         public static Expression And(params Expression[] expressions)
         {
-            return new AndExpression(expressions).Simplify();
+            return new ComplexExpression(Operator.And, expressions);
         }
 
         public static Expression Or(params Expression[] expressions)
         {
-            return new OrExpression(expressions).Simplify();
+            return new ComplexExpression(Operator.Or, expressions);
         }
 
-        protected static Expression Simplify(Expression expression)
+        public bool Equals(Expression other)
         {
-            
-            expression = DeMorgan(expression);
-            expression = Taut(expression);
-            expression = Absorbtion(expression);
-            return expression;
+            return ExpressionComparer.Default.Equals(this, other);
         }
 
-        private static Expression Absorbtion(Expression expression)
+        public override bool Equals(object obj)
         {
-            // a & (a | b) = a
-            // a | (a & b) = a
-            var branch = expression as BranchExpression;
-            if (branch != null)
-            {
-                
-            }
-            return expression;
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return Equals((Expression) obj);
         }
 
-        private static Expression Taut(Expression expression)
+        public override int GetHashCode()
         {
-            // remove a * ~a and replace it with True or False
-
-            var branchExpression = expression as BranchExpression;
-            if (branchExpression != null)
-            {
-                if (branchExpression.Expressions.OfType<NotExpression>().Any(notExpression => branchExpression.Expressions.Contains(notExpression.Operand)))
-                {
-                    return branchExpression.Operator == Operator.And
-                               ? ValueExpression.False
-                               : ValueExpression.True;
-                }
-            }
-            return expression;
+            return ExpressionComparer.Default.GetHashCode(this);
         }
 
-        private static Expression DeMorgan(Expression expression)
+
+        public static bool operator ==(Expression left, Expression right)
         {
-            var notExpression = expression as NotExpression;
-            if (notExpression != null)
-            {
-                var branchExpression = notExpression.Operand as BranchExpression;
-                if (branchExpression != null)
-                {
-                    var negate = branchExpression.Expressions.Select(Not);
-                    return branchExpression.Operator == Operator.And
-                               ? (Expression) new OrExpression(negate.ToArray())
-                               : new AndExpression(negate.ToArray());
-                }
-            }
-            return expression;
+            return Equals(left, right);
         }
 
-    	public static VariableExpression Variable(string name)
-    	{
-    		return new VariableExpression(name);
-    	}
-    }
-
-    public interface IExpressionVisitor<T>
-    {
-        T Visit(NotExpression notExpression);
-        T Visit(VariableExpression variableExpression);
-        T Visit(ValueExpression valueExpression);
-        T Visit(AndExpression andExpression);
-        T Visit(OrExpression andExpression);
+        public static bool operator !=(Expression left, Expression right)
+        {
+            return !Equals(left, right);
+        }
     }
 }
