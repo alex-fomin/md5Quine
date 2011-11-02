@@ -1,23 +1,22 @@
 using System.Linq;
 using System.Text;
-using Bits.Expressions;
 
 namespace Bits
 {
     public class BitVector
     {
         private readonly int _count;
-        private readonly Expression[] _bits;
+        private readonly Bit[] _bits;
 
         public BitVector(string s, int count = 32)
         {
             _count = count;
-            _bits = Enumerable.Range(0, _count).Select(x => Expression.Variable(s + "_" + x)).ToArray();
+            _bits = Enumerable.Range(0, _count).Select(x => new Bit(s + "_" + x)).ToArray();
         }
 
-        public BitVector(Expression[] bits)
+        public BitVector(Bit[] bits)
         {
-            _bits =  (Expression[]) bits.Clone();
+            _bits = (Bit[]) bits.Clone();
             _count = _bits.Length;            
         }
 
@@ -46,9 +45,9 @@ namespace Bits
         public static BitVector operator +(BitVector a, BitVector b)
         {
 
-			var result = new Expression[a._count];
+            var result = new Bit[a._count];
 
-			Expression carry = Expression.False;
+            Bit carry = Bit.False;
 
             for (int i = 0; i < a._count; i++)
             {
@@ -60,7 +59,7 @@ namespace Bits
         }
 
 
-        public Expression this[int i]
+        public Bit this[int i]
         {
             get { return _bits[i]; }
         }
@@ -82,11 +81,11 @@ namespace Bits
             foreach (var bit in b._bits.Reverse())
             {
                 result *= 2;
-				if (bit == Expression.True)
+                if (bit == true)
                 {
                     result += 1;
                 }
-				else if (bit == Expression.False)
+                else if (bit == false)
                 {
                     result += 0;
                 }
@@ -105,16 +104,16 @@ namespace Bits
 
         private static BitVector Convert(uint u, int count)
         {
-        	var r = new Expression[count];
+            var r = new Bit[count];
             for (int i = 0; i < count; i++)
             {
-				r[i] = Expression.False;
+                r[i] = Bit.False;
             }
             int j = 0;
             while (u != 0)
             {
                 if (u % 2 == 1)
-					r[j] = Expression.True;
+                    r[j] = Bit.True;
 
                 u = u/2;
                 j++;
@@ -144,7 +143,7 @@ namespace Bits
         {
             shift = shift%_count;
 
-			var result = new Expression[_count];
+            var result = new Bit[_count];
 
             for (int i = 0; i < _count; i++)
             {
@@ -155,11 +154,11 @@ namespace Bits
 
         public static BitVector operator<<(BitVector value, int shift)
         {
-			var result = new Expression[value._count];
+            var result = new Bit[value._count];
 
             for (int i = 0; i < value._count; i++)
             {
-				result[i] = Expression.False;
+                result[i] = Bit.False;
             }
             for (int i = 0; i < value._count; i++)
             {
@@ -171,11 +170,11 @@ namespace Bits
 
         public static BitVector operator >>(BitVector value, int shift)
         {
-			var result = new Expression[value._count];
+            var result = new Bit[value._count];
 
             for (int i = 0; i < value._count; i++)
             {
-				result[i] = Expression.False;
+                result[i] = Bit.False;
             }
             for (int i = 0; i < value._count; i++)
             {
@@ -192,14 +191,14 @@ namespace Bits
 
         public BitVector Resize(int size)
         {
-			var result = new Expression[size];
+            Bit[] result = new Bit[size];
             for (int i = 0; i < size; i++)
             {
                 if (i < _count)
                     result[i] = _bits[i];
                 else
                 {
-					result[i] = Expression.False;
+                    result[i] = Bit.False;
                 }
             }
             return new BitVector(result);

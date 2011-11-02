@@ -1,6 +1,5 @@
 using System;
 using Bits;
-using Bits.Expressions;
 
 /*******************************************************
  * Programmed by
@@ -21,16 +20,16 @@ using Bits.Expressions;
 	        public static void Main()
 	        {
 
-                var bitVector = new BitVector(new Expression[8]
+                var bitVector = new BitVector(new Bit[8]
                                                   {
-                                                      Expression.Variable("a0"), 
-                                                      Expression.Variable("a1"), 
-                                                      Expression.False, 
-                                                      Expression.False, 
-                                                      Expression.False, 
-                                                      Expression.False, 
-                                                      Expression.False,
-                                                      Expression.False
+                                                      new Bit("a0"), 
+                                                      new Bit("a1"), 
+                                                      Bit.False, 
+                                                      Bit.False, 
+                                                      Bit.False, 
+                                                      Bit.False, 
+                                                      Bit.False,
+                                                      Bit.False
                                                   });
 	            var md = new Md5 {ByteInput = new[] {bitVector}};
 
