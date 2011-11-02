@@ -2,12 +2,10 @@ namespace Bits.Expressions
 {
     public class ValueExpression : Expression
     {
-        public static readonly ValueExpression True = new ValueExpression(true);
-        public static readonly ValueExpression False = new ValueExpression(false);
 
         private readonly bool _value;
 
-        private ValueExpression(bool value)
+    	public ValueExpression(bool value)
         {
             _value = value;
         }

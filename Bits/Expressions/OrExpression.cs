@@ -16,13 +16,13 @@ namespace Bits.Expressions
 
             foreach (var expression in Expressions)
             {
-                if (expression == ValueExpression.True)
-                    return ValueExpression.True;
-                if (expression != ValueExpression.False)
+                if (expression == True)
+                    return True;
+                if (expression != False)
                     expressions.Add(expression);
             }
             if (expressions.Count == 0)
-                return ValueExpression.False;
+                return False;
             if (expressions.Count == 1)
                 return expressions.First();
 

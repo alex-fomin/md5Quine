@@ -4,11 +4,31 @@ namespace Bits.Expressions
 {
     public abstract class Expression
     {
-        public virtual Expression Simplify()
+    	public static readonly ValueExpression False = new ValueExpression(false);
+    	public static readonly Expression True = new ValueExpression(true);
+
+    	public virtual Expression Simplify()
         {
             return Simplify(this);
         }
 
+		public static Expression operator &(Expression a, Expression b)
+		{
+			return And(a, b);
+		}
+		public static Expression operator |(Expression a, Expression b)
+		{
+			return Or(a, b);
+		}
+		public static Expression operator ^(Expression a, Expression b)
+		{
+			return ((a & ~b) | (~a & b)).Simplify();
+		}
+
+		public static Expression operator ~(Expression a)
+		{
+			return Not(a);
+		}
 
 
         public abstract T Accept<T>(IExpressionVisitor<T> visitor);
@@ -82,6 +102,11 @@ namespace Bits.Expressions
             }
             return expression;
         }
+
+    	public static VariableExpression Variable(string name)
+    	{
+    		return new VariableExpression(name);
+    	}
     }
 
     public interface IExpressionVisitor<T>

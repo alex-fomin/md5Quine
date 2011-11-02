@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Bits.Expressions;
+using NUnit.Framework;
 
 namespace Bits.Test
 {
@@ -7,12 +8,12 @@ namespace Bits.Test
     {
 
         [Test, TestCaseSource("_andSource")]
-        public void AndTest(Bit a, Bit b, Bit r)
+		public void AndTest(Expression a, Expression b, Expression r)
         {
             Assert.AreEqual(a & b, r);
         }
         [Test, TestCaseSource("_orSource")]
-        public void OrTest(Bit a, Bit b, Bit r)
+		public void OrTest(Expression a, Expression b, Expression r)
         {
             Assert.AreEqual(a | b, r);
         }
@@ -21,17 +22,17 @@ namespace Bits.Test
 // ReSharper disable UnusedMember.Local
         private static object[] _andSource = new[]
                                                 {
-                                                    new[] {Bit.True, Bit.True, Bit.True},
-                                                    new[] {Bit.True, Bit.False, Bit.False},
-                                                    new[] {Bit.False, Bit.True, Bit.False},
-                                                    new[] {Bit.False, Bit.False, Bit.False},
+                                                    new[] {Expression.True, Expression.True, Expression.True},
+                                                    new[] {Expression.True, Expression.False, Expression.False},
+                                                    new[] {Expression.False, Expression.True, Expression.False},
+                                                    new[] {Expression.False, Expression.False, Expression.False},
                                                 };
         private static object[] _orSource = new[]
                                                 {
-                                                    new[] {Bit.True, Bit.True, Bit.True},
-                                                    new[] {Bit.True, Bit.False, Bit.True},
-                                                    new[] {Bit.False, Bit.True, Bit.True},
-                                                    new[] {Bit.False, Bit.False, Bit.False},
+                                                    new[] {Expression.True, Expression.True, Expression.True},
+                                                    new[] {Expression.True, Expression.False, Expression.True},
+                                                    new[] {Expression.False, Expression.True, Expression.True},
+                                                    new[] {Expression.False, Expression.False, Expression.False},
                                                 };
         // ReSharper restore UnusedMember.Local
     }
