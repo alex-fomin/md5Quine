@@ -9,12 +9,12 @@ namespace Bits.Expressions
         public static readonly Simplifier Instance = new Simplifier();
         private static readonly ExpressionVisitor[] _laws = new ExpressionVisitor[]
                                                      {
+                                                         new DistributivityAndLaw(), 
                                                          new AbsorbtionLaw(),
                                                          new AssociativityLaw(),
                                                          new ComplementationLaw(), 
                                                          new ConstantNegateLaw(), 
                                                          new DeMorganLaw(), 
-                                                         new DistributivityAndLaw(), 
                                                          new DoubleNegationLaw(), 
                                                          new IdentityAnnihilationLaw(), 
                                                      };
@@ -22,7 +22,7 @@ namespace Bits.Expressions
         
         public override Expression Visit(NotExpression notExpression)
         {
-            var operand = Simplify(notExpression.Operand);
+            var operand = notExpression.Operand.Accept(this);
             if (operand != notExpression.Operand)
                 notExpression = new NotExpression(operand);
 
@@ -35,7 +35,7 @@ namespace Bits.Expressions
             var expressions = new List<Expression>();
             foreach (var expression in complex.Expressions)
             {
-                var visited = Simplify(expression);
+                var visited = expression.Accept(this);
                 expressions.Add(visited);
                 if (visited != expression)
                     modified = true;
@@ -43,7 +43,8 @@ namespace Bits.Expressions
             if (modified)
                 complex = new ComplexExpression(complex.Operator, expressions);
 
-            return Simplify(complex);
+            Expression resulr = Simplify(complex);
+            return resulr;
         }
 
 

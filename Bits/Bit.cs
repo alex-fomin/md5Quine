@@ -21,23 +21,28 @@ namespace Bits
 
         public static Bit operator ~(Bit a)
         {
-            return new Bit(Expression.Not(a._expression));
+            Expression expression = Expression.Not(a._expression).Accept(Simplifier.Instance);
+            return new Bit(expression);
         }
 
         public static Bit operator &(Bit a, Bit b)
         {
-            return new Bit(Expression.And(a._expression,b._expression));
+            Expression expression = Expression.And(a._expression, b._expression).Accept(Simplifier.Instance);
+            return new Bit(expression);
         }
 
         public static Bit operator |(Bit a, Bit b)
         {
-            return new Bit(Expression.Or(a._expression, b._expression));
+            Expression expression = Expression.Or(a._expression, b._expression).Accept(Simplifier.Instance);
+            return new Bit(expression);
         }
 
         public static Bit operator ^(Bit a, Bit b)
         {
             //return new Bit(Expression.ExclusiveOr(a._exp, b._exp));
-            return ((~a) & (b) | (a & (~b)));
+            Expression expression1 = ((~a._expression) & (b._expression) | (a._expression & (~b._expression)));
+            Expression expression = expression1.Accept(Simplifier.Instance);
+            return new Bit(expression);
         }
 
         public override string ToString()
