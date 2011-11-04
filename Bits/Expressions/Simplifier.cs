@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bits.Expressions.Laws;
 
@@ -9,14 +10,14 @@ namespace Bits.Expressions
         public static readonly Simplifier Instance = new Simplifier();
         private static readonly ExpressionVisitor[] _laws = new ExpressionVisitor[]
                                                      {
-                                                         new DistributivityAndLaw(), 
-                                                         new AbsorbtionLaw(),
+                                                         new DoubleNegationLaw(), 
+                                                         new IdentityAnnihilationLaw(), 
+                                                         new IdempotencyLaw(),
                                                          new AssociativityLaw(),
                                                          new ComplementationLaw(), 
                                                          new ConstantNegateLaw(), 
                                                          new DeMorganLaw(), 
-                                                         new DoubleNegationLaw(), 
-                                                         new IdentityAnnihilationLaw(), 
+                                                         new DistributivityAndLaw(), 
                                                      };
         
         
@@ -31,35 +32,54 @@ namespace Bits.Expressions
 
         public override Expression Visit(ComplexExpression complex)
         {
-            bool modified = false;
-            var expressions = new List<Expression>();
-            foreach (var expression in complex.Expressions)
-            {
-                var visited = expression.Accept(this);
-                expressions.Add(visited);
-                if (visited != expression)
-                    modified = true;
-            }
-            if (modified)
-                complex = new ComplexExpression(complex.Operator, expressions);
-
-            Expression resulr = Simplify(complex);
-            return resulr;
+        	return Process((Expression)complex, SimplifyComplex);
         }
 
+    	private Expression SimplifyComplex(Expression ex)
+    	{
+    		var complex = ex as ComplexExpression;
+			if (complex != null)
+			{
+				bool modified = false;
+				var expressions = new List<Expression>();
+				foreach (var expression in complex)
+				{
+					var visited = expression.Accept(this);
+					expressions.Add(visited);
+					if (visited != expression)
+						modified = true;
+				}
+				if (modified)
+					complex = new ComplexExpression(complex.Operator, expressions);
+
+				Expression resulr = Simplify(complex);
+				return resulr;
+			}
+    		return ex;
+    	}
 
 
-        static Expression Simplify(Expression e)
+    	static Expression Simplify(Expression e)
         {
-            Expression before;
-            Expression after = e;
-            do
-            {
-                before = after;
-                after = _laws.Aggregate(after, (current, law) => current.Accept(law));
-            } while (before != after);
-
-            return after;
+        	return Process(e, Update);
         }
+
+    	private static T Process<T>(T e, Func<T,T> processor)
+    	{
+    		T before;
+    		T after = e;
+    		do
+    		{
+    			before = after;
+    			after = processor(before);
+    		} while ( !Equals(before, after));
+
+    		return after;
+    	}
+
+    	private static Expression Update(Expression after)
+    	{
+    		return _laws.Aggregate(after, (current, law) => current.Accept(law));
+    	}
     }
 }

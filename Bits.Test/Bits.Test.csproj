@@ -48,6 +48,7 @@
     <Compile Include="BitVectorTest.cs" />
     <Compile Include="LawTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimplifierTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bits\Bits.csproj">

@@ -2,19 +2,19 @@ using System.Collections.Generic;
 
 namespace Bits.Expressions.Laws
 {
-    public class AbsorbtionLaw : ExpressionVisitor
+    public class IdempotencyLaw : ExpressionVisitor
     {
         public override Expression Visit(ComplexExpression complex)
         {
             var expressions = new List<Expression>();
-            int count = complex.Expressions.Count;
+            int count = complex.Count;
             for (int i = 0; i < count; i++)
             {
                 bool found = false;
-                var left = complex.Expressions[i];
+                var left = complex[i];
                 for (int j=i+1;j<count;j++)
                 {
-                    var right = complex.Expressions[j];
+                    var right = complex[j];
                     if (left == right)
                     {
                         found = true;

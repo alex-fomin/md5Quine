@@ -14,7 +14,7 @@ namespace Bits.Expressions
         {
             bool modified = false;
             var expressions = new List<Expression>();
-            foreach (var expression in complex.Expressions)
+            foreach (var expression in complex)
             {
                 var visited = expression.Accept(this);
                 expressions.Add(visited);

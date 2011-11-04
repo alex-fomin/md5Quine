@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 
 namespace System.Linq
 {
@@ -14,5 +15,12 @@ namespace System.Linq
                 from item in sequence
                 select accseq.Concat(new[] { item }));
         }
+
+		public static string ToString<T>(this IEnumerable<T> items, string separator)
+		{
+			var sb = new StringBuilder();
+			sb = items.Aggregate(sb, (current, item) => current.Append(item).Append(separator));
+			return sb.ToString();
+		}
     }
 }

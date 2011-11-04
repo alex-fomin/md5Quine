@@ -91,13 +91,13 @@ namespace Bits.Test
         }
 
         [Test]
-        public void AbsobtionTest()
+        public void IdempotencyTest()
         {
-            Test<AbsorbtionLaw>(Expression.Or(_a, _a, _b), _a | _b);
-            Test<AbsorbtionLaw>(Expression.Or(_a, _a, _a), _a);
+            Test<IdempotencyLaw>(Expression.Or(_a, _a, _b), _a | _b);
+            Test<IdempotencyLaw>(Expression.Or(_a, _a, _a), _a);
 
-            Test<AbsorbtionLaw>(Expression.Or(_a, _a, _a, _c), _a | _c);
-            Test<AbsorbtionLaw>(Expression.Or(_a & _b, _a, _a & _b, _c,_a), Expression.Or(_a & _b, _a, _c));
+            Test<IdempotencyLaw>(Expression.Or(_a, _a, _a, _c), _a | _c);
+            Test<IdempotencyLaw>(Expression.Or(_a & _b, _a, _a & _b, _c,_a), Expression.Or(_a & _b, _a, _c));
         }
     }
 }

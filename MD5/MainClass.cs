@@ -24,7 +24,7 @@ using Bits;
                                                   {
                                                       new Bit("a0"), 
                                                       new Bit("a1"), 
-                                                      Bit.False, 
+                                                      new Bit("a2"), 
                                                       Bit.False, 
                                                       Bit.False, 
                                                       Bit.False, 

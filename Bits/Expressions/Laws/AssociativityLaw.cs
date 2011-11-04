@@ -8,12 +8,12 @@ namespace Bits.Expressions.Laws
         {
             bool modified = false;
             var expressions = new List<Expression>();
-            foreach (var expression in complex.Expressions)
+            foreach (var expression in complex)
             {
                 var nestedComplex = expression as ComplexExpression;
                 if (nestedComplex != null && nestedComplex.Operator == complex.Operator)
                 {
-                    expressions.AddRange(nestedComplex.Expressions);
+                    expressions.AddRange(nestedComplex);
                     modified = true;
                 }
                 else

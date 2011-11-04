@@ -80,5 +80,10 @@ namespace Bits.Expressions
         {
             return !Equals(left, right);
         }
+
+    	public Expression Simlpify()
+    	{
+    		return this.Accept(Simplifier.Instance);
+    	}
     }
 }

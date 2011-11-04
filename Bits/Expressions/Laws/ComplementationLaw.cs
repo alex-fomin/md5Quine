@@ -4,13 +4,13 @@ namespace Bits.Expressions.Laws
     {
         public override Expression Visit(ComplexExpression complex)
         {
-            for (int i = 0; i < complex.Expressions.Count; i++)
+            for (int i = 0; i < complex.Count; i++)
             {
-                var left =complex.Expressions[i];
+                var left =complex[i];
 
-                for (int j = i + 1; j < complex.Expressions.Count; j++)
+                for (int j = i + 1; j < complex.Count; j++)
                 {
-                    var right = complex.Expressions[j];
+                    var right = complex[j];
                     
                     if ((left is NotExpression && ((NotExpression)left).Operand == right )||
                         (right is NotExpression && ((NotExpression)right).Operand == left))

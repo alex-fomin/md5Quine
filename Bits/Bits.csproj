@@ -44,7 +44,8 @@
     <Compile Include="BitVector.cs" />
     <Compile Include="Expressions\ExpressionRewriter.cs" />
     <Compile Include="Expressions\ExpressionVisitor.cs" />
-    <Compile Include="Expressions\Laws\AbsorbtionLaw.cs" />
+    <Compile Include="Expressions\Laws\AbsoptionLaw.cs" />
+    <Compile Include="Expressions\Laws\IdempotencyLaw.cs" />
     <Compile Include="Expressions\Laws\AssociativityLaw.cs" />
     <Compile Include="Expressions\ComplexExpression.cs" />
     <Compile Include="Expressions\Laws\ComplementationLaw.cs" />

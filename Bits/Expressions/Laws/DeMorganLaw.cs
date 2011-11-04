@@ -9,7 +9,7 @@ namespace Bits.Expressions.Laws
             var operand = notExpression.Operand as ComplexExpression;
             if (operand != null)
             {
-                return new ComplexExpression(operand.Operator.Dual(), operand.Expressions.Select(Expression.Not));
+                return new ComplexExpression(operand.Operator.Dual(), operand.Select(Expression.Not));
             }
             return notExpression;
         }

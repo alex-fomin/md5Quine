@@ -47,10 +47,10 @@ namespace Bits.Expressions
         {
             if (a.Operator != b.Operator)
                 return false;
-            if (a.Expressions.Count != b.Expressions.Count)
+            if (a.Count != b.Count)
                 return false;
 
-            return !a.Expressions.Except(b.Expressions, this).Any();
+            return !a.Except(b, this).Any();
         }
 
         static readonly HashVisitor _hashVisitor = new HashVisitor();
@@ -79,7 +79,7 @@ namespace Bits.Expressions
 
             public int Visit(ComplexExpression complex)
             {
-                return complex.Expressions.Aggregate(complex.Operator.GetHashCode()*397, (current, expression) => current ^ expression.Accept(this));
+                return complex.Aggregate(complex.Operator.GetHashCode()*397, (current, expression) => current ^ expression.Accept(this));
             }
         }
     }

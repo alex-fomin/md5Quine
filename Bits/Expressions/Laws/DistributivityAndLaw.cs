@@ -12,7 +12,7 @@ namespace Bits.Expressions.Laws
                 var andExpressions = new List<Expression>();
                 var orExpressions = new List<ComplexExpression>();
 
-                foreach (var expression in complex.Expressions)
+                foreach (var expression in complex)
                 {
                     var inner = expression as ComplexExpression;
                     if (inner != null && inner.Operator == Operator.Or)
@@ -30,7 +30,7 @@ namespace Bits.Expressions.Laws
                 if (orExpressions.Count == 0)
                     return complex;
 
-                var product = orExpressions.Select(x => x.Expressions).CartesianProduct();
+                var product = orExpressions.Select(x => x).CartesianProduct();
 
                 var result =
                     product.Select(p => new ComplexExpression(Operator.And, p.Concat(andExpressions)));

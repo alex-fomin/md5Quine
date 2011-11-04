@@ -10,7 +10,7 @@ namespace Bits.Expressions.Laws
             var expressions = new List<Expression>();
             if (complex.Operator == Operator.And)
             {
-                foreach (var expression in complex.Expressions)
+                foreach (var expression in complex)
                 {
                     if (expression == Expression.False)
                         return Expression.False;
@@ -20,7 +20,7 @@ namespace Bits.Expressions.Laws
             }
             else
             {
-                foreach (var expression in complex.Expressions)
+                foreach (var expression in complex)
                 {
                     if (expression == Expression.True)
                         return Expression.True;
@@ -28,10 +28,12 @@ namespace Bits.Expressions.Laws
                         expressions.Add(expression);
                 }
             }
+			if (expressions.Count == 0)
+				return complex.Operator == Operator.And ? Expression.True : Expression.False;
 
             if (expressions.Count == 1)
                 return expressions[0];
-            if (expressions.Count != complex.Expressions.Count)
+            if (expressions.Count != complex.Count)
             {
                 return new ComplexExpression(complex.Operator, expressions);
             }
